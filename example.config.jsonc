@@ -1,0 +1,32 @@
+{
+    "credential": {
+    },
+    "static": {
+        "upstream": {
+            "garuda": {
+                "type": "rest",
+                "enable-tls": true,
+                "host": "",
+                "extras": {
+
+                },
+                "endpoints": {
+                    "search": {
+                        "path": "",
+                        "retry": {
+                            "attempts": 3,
+                            "delay": "100ms",
+                            "type": "exponential"
+                        }
+                    }
+                },
+                "global-retry": {
+                    "attempts": 3,
+                    "delay": "100s",
+                    "timeout": "5s",
+                    "type": "exponential"
+                }
+            }
+        }
+    }
+}
