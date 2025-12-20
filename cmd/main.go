@@ -2,14 +2,13 @@ package main
 
 import (
 	"context"
-	"github.com/alhamsya/bookcabin/cmd/public"
-	"github.com/urfave/cli/v2"
 	"os"
-	"syscall"
+
+	"github.com/alhamsya/bookcabin/cmd/rest"
+	"github.com/urfave/cli/v2"
 )
 
 func main() {
-
 	cliApp := &cli.App{
 		Commands: []*cli.Command{
 			{
@@ -17,10 +16,10 @@ func main() {
 				Usage: "Run flight search service",
 				Subcommands: []*cli.Command{
 					{
-						Name:  "public-api",
-						Usage: "Run public REST API",
+						Name:  "rest",
+						Usage: "Run Rest API",
 						Action: func(ctx *cli.Context) error {
-							return public.RunRESTApp(ctx.Context, syscall.SIGINT, syscall.SIGTERM)
+							return rest.RunApp(ctx.Context)
 						},
 					},
 				},
