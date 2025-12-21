@@ -1,0 +1,334 @@
+{
+  "uuid": "5a43bf47-57c6-4262-aa80-e2dce83367a5",
+  "lastMigration": 33,
+  "name": "Flight",
+  "endpointPrefix": "airline",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "b5f4c8c7-685e-45e1-bf44-f3ef4715739c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "garuda",
+      "responses": [
+        {
+          "uuid": "faff3b3f-3e1a-4fe3-939f-787e6ba0ce44",
+          "body": "{\n  \"status\": \"error\"\n}",
+          "latency": 100,
+          "statusCode": 429,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "71238007-634e-45f3-b48c-6181afb58caf",
+          "body": "{\n  \"status\": \"success\",\n  \"flights\": [\n    {\n      \"flight_id\": \"GA400\",\n      \"airline\": \"Garuda Indonesia\",\n      \"airline_code\": \"GA\",\n      \"departure\": {\n        \"airport\": \"CGK\",\n        \"city\": \"Jakarta\",\n        \"time\": \"2025-12-15T06:00:00+07:00\",\n        \"terminal\": \"3\"\n      },\n      \"arrival\": {\n        \"airport\": \"DPS\",\n        \"city\": \"Denpasar\",\n        \"time\": \"2025-12-15T08:50:00+08:00\",\n        \"terminal\": \"I\"\n      },\n      \"duration_minutes\": 110,\n      \"stops\": 0,\n      \"aircraft\": \"Boeing 737-800\",\n      \"price\": {\n        \"amount\": 1250000,\n        \"currency\": \"IDR\"\n      },\n      \"available_seats\": 28,\n      \"fare_class\": \"economy\",\n      \"baggage\": {\n        \"carry_on\": 1,\n        \"checked\": 2\n      },\n      \"amenities\": [\n        \"wifi\",\n        \"meal\",\n        \"entertainment\"\n      ]\n    },\n    {\n      \"flight_id\": \"GA410\",\n      \"airline\": \"Garuda Indonesia\",\n      \"airline_code\": \"GA\",\n      \"departure\": {\n        \"airport\": \"CGK\",\n        \"city\": \"Jakarta\",\n        \"time\": \"2025-12-15T09:30:00+07:00\",\n        \"terminal\": \"3\"\n      },\n      \"arrival\": {\n        \"airport\": \"DPS\",\n        \"city\": \"Denpasar\",\n        \"time\": \"2025-12-15T12:25:00+08:00\",\n        \"terminal\": \"I\"\n      },\n      \"duration_minutes\": 115,\n      \"stops\": 0,\n      \"aircraft\": \"Airbus A330-300\",\n      \"price\": {\n        \"amount\": 1450000,\n        \"currency\": \"IDR\"\n      },\n      \"available_seats\": 15,\n      \"fare_class\": \"economy\",\n      \"baggage\": {\n        \"carry_on\": 1,\n        \"checked\": 2\n      },\n      \"amenities\": [\n        \"wifi\",\n        \"power_outlet\",\n        \"meal\",\n        \"entertainment\"\n      ]\n    },\n    {\n      \"flight_id\": \"GA315\",\n      \"airline\": \"Garuda Indonesia\",\n      \"airline_code\": \"GA\",\n      \"departure\": {\n        \"airport\": \"CGK\",\n        \"city\": \"Jakarta\",\n        \"time\": \"2025-12-15T14:00:00+07:00\",\n        \"terminal\": \"3\"\n      },\n      \"arrival\": {\n        \"airport\": \"SUB\",\n        \"city\": \"Surabaya\",\n        \"time\": \"2025-12-15T15:30:00+07:00\",\n        \"terminal\": \"2\"\n      },\n      \"duration_minutes\": 90,\n      \"stops\": 0,\n      \"aircraft\": \"Boeing 737\",\n      \"price\": {\n        \"amount\": 1850000,\n        \"currency\": \"IDR\"\n      },\n      \"segments\": [\n        {\n          \"flight_number\": \"GA315\",\n          \"departure\": {\n            \"airport\": \"CGK\",\n            \"time\": \"2025-12-15T14:00:00+07:00\"\n          },\n          \"arrival\": {\n            \"airport\": \"SUB\",\n            \"time\": \"2025-12-15T15:30:00+07:00\"\n          },\n          \"duration_minutes\": 90\n        },\n        {\n          \"flight_number\": \"GA332\",\n          \"departure\": {\n            \"airport\": \"SUB\",\n            \"time\": \"2025-12-15T17:15:00+07:00\"\n          },\n          \"arrival\": {\n            \"airport\": \"DPS\",\n            \"time\": \"2025-12-15T18:45:00+08:00\"\n          },\n          \"duration_minutes\": 90,\n          \"layover_minutes\": 105\n        }\n      ],\n      \"available_seats\": 22,\n      \"fare_class\": \"economy\",\n      \"baggage\": {\n        \"carry_on\": 1,\n        \"checked\": 2\n      }\n    }\n  ]\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "templating",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "df9f0d75-7cd0-448b-9b8a-bc3713c3aea6",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "lion",
+      "responses": [
+        {
+          "uuid": "e71e940c-a2ff-4d78-9eb3-5a3f53651dc9",
+          "body": "{\n  \"status\": \"error\"\n}",
+          "latency": 100,
+          "statusCode": 429,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "505a70a4-7b3a-442f-9bea-72534a54af44",
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"available_flights\": [\n      {\n        \"id\": \"JT740\",\n        \"carrier\": {\n          \"name\": \"Lion Air\",\n          \"iata\": \"JT\"\n        },\n        \"route\": {\n          \"from\": {\n            \"code\": \"CGK\",\n            \"name\": \"Soekarno-Hatta International\",\n            \"city\": \"Jakarta\"\n          },\n          \"to\": {\n            \"code\": \"DPS\",\n            \"name\": \"Ngurah Rai International\",\n            \"city\": \"Denpasar\"\n          }\n        },\n        \"schedule\": {\n          \"departure\": \"2025-12-15T05:30:00\",\n          \"departure_timezone\": \"Asia/Jakarta\",\n          \"arrival\": \"2025-12-15T08:15:00\",\n          \"arrival_timezone\": \"Asia/Makassar\"\n        },\n        \"flight_time\": 105,\n        \"is_direct\": true,\n        \"pricing\": {\n          \"total\": 950000,\n          \"currency\": \"IDR\",\n          \"fare_type\": \"ECONOMY\"\n        },\n        \"seats_left\": 45,\n        \"plane_type\": \"Boeing 737-900ER\",\n        \"services\": {\n          \"wifi_available\": false,\n          \"meals_included\": false,\n          \"baggage_allowance\": {\n            \"cabin\": \"7 kg\",\n            \"hold\": \"20 kg\"\n          }\n        }\n      },\n      {\n        \"id\": \"JT742\",\n        \"carrier\": {\n          \"name\": \"Lion Air\",\n          \"iata\": \"JT\"\n        },\n        \"route\": {\n          \"from\": {\n            \"code\": \"CGK\",\n            \"name\": \"Soekarno-Hatta International\",\n            \"city\": \"Jakarta\"\n          },\n          \"to\": {\n            \"code\": \"DPS\",\n            \"name\": \"Ngurah Rai International\",\n            \"city\": \"Denpasar\"\n          }\n        },\n        \"schedule\": {\n          \"departure\": \"2025-12-15T11:45:00\",\n          \"departure_timezone\": \"Asia/Jakarta\",\n          \"arrival\": \"2025-12-15T14:35:00\",\n          \"arrival_timezone\": \"Asia/Makassar\"\n        },\n        \"flight_time\": 110,\n        \"is_direct\": true,\n        \"pricing\": {\n          \"total\": 890000,\n          \"currency\": \"IDR\",\n          \"fare_type\": \"ECONOMY\"\n        },\n        \"seats_left\": 38,\n        \"plane_type\": \"Boeing 737-800\",\n        \"services\": {\n          \"wifi_available\": false,\n          \"meals_included\": false,\n          \"baggage_allowance\": {\n            \"cabin\": \"7 kg\",\n            \"hold\": \"20 kg\"\n          }\n        }\n      },\n      {\n        \"id\": \"JT650\",\n        \"carrier\": {\n          \"name\": \"Lion Air\",\n          \"iata\": \"JT\"\n        },\n        \"route\": {\n          \"from\": {\n            \"code\": \"CGK\",\n            \"name\": \"Soekarno-Hatta International\",\n            \"city\": \"Jakarta\"\n          },\n          \"to\": {\n            \"code\": \"DPS\",\n            \"name\": \"Ngurah Rai International\",\n            \"city\": \"Denpasar\"\n          }\n        },\n        \"schedule\": {\n          \"departure\": \"2025-12-15T16:20:00\",\n          \"departure_timezone\": \"Asia/Jakarta\",\n          \"arrival\": \"2025-12-15T21:10:00\",\n          \"arrival_timezone\": \"Asia/Makassar\"\n        },\n        \"flight_time\": 230,\n        \"is_direct\": false,\n        \"stop_count\": 1,\n        \"layovers\": [\n          {\n            \"airport\": \"SUB\",\n            \"duration_minutes\": 75\n          }\n        ],\n        \"pricing\": {\n          \"total\": 780000,\n          \"currency\": \"IDR\",\n          \"fare_type\": \"ECONOMY\"\n        },\n        \"seats_left\": 52,\n        \"plane_type\": \"Boeing 737-800\",\n        \"services\": {\n          \"wifi_available\": false,\n          \"meals_included\": false,\n          \"baggage_allowance\": {\n            \"cabin\": \"7 kg\",\n            \"hold\": \"20 kg\"\n          }\n        }\n      }\n    ]\n  }\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "templating",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "5aa9ac47-c2d8-4f51-9c85-a1e401a8e54f",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "batik",
+      "responses": [
+        {
+          "uuid": "6de1320d-fecf-401d-9e35-8662ce2184d9",
+          "body": "{\n  \"status\": \"error\"\n}",
+          "latency": 100,
+          "statusCode": 429,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a41978f9-272f-47ba-887a-af39710ae0ea",
+          "body": "{\n  \"code\": 200,\n  \"message\": \"OK\",\n  \"results\": [\n    {\n      \"flightNumber\": \"ID6514\",\n      \"airlineName\": \"Batik Air\",\n      \"airlineIATA\": \"ID\",\n      \"origin\": \"CGK\",\n      \"destination\": \"DPS\",\n      \"departureDateTime\": \"2025-12-15T07:15:00+0700\",\n      \"arrivalDateTime\": \"2025-12-15T10:00:00+0800\",\n      \"travelTime\": \"1h 45m\",\n      \"numberOfStops\": 0,\n      \"fare\": {\n        \"basePrice\": 980000,\n        \"taxes\": 120000,\n        \"totalPrice\": 1100000,\n        \"currencyCode\": \"IDR\",\n        \"class\": \"Y\"\n      },\n      \"seatsAvailable\": 32,\n      \"aircraftModel\": \"Airbus A320\",\n      \"baggageInfo\": \"7kg cabin, 20kg checked\",\n      \"onboardServices\": [\n        \"Snack\",\n        \"Beverage\"\n      ]\n    },\n    {\n      \"flightNumber\": \"ID6520\",\n      \"airlineName\": \"Batik Air\",\n      \"airlineIATA\": \"ID\",\n      \"origin\": \"CGK\",\n      \"destination\": \"DPS\",\n      \"departureDateTime\": \"2025-12-15T13:30:00+0700\",\n      \"arrivalDateTime\": \"2025-12-15T16:20:00+0800\",\n      \"travelTime\": \"1h 50m\",\n      \"numberOfStops\": 0,\n      \"fare\": {\n        \"basePrice\": 1050000,\n        \"taxes\": 130000,\n        \"totalPrice\": 1180000,\n        \"currencyCode\": \"IDR\",\n        \"class\": \"Y\"\n      },\n      \"seatsAvailable\": 18,\n      \"aircraftModel\": \"Boeing 737-800\",\n      \"baggageInfo\": \"7kg cabin, 20kg checked\",\n      \"onboardServices\": [\n        \"Meal\",\n        \"Beverage\",\n        \"Entertainment\"\n      ]\n    },\n    {\n      \"flightNumber\": \"ID7042\",\n      \"airlineName\": \"Batik Air\",\n      \"airlineIATA\": \"ID\",\n      \"origin\": \"CGK\",\n      \"destination\": \"DPS\",\n      \"departureDateTime\": \"2025-12-15T18:45:00+0700\",\n      \"arrivalDateTime\": \"2025-12-15T23:50:00+0800\",\n      \"travelTime\": \"3h 5m\",\n      \"numberOfStops\": 1,\n      \"connections\": [\n        {\n          \"stopAirport\": \"UPG\",\n          \"stopDuration\": \"55m\"\n        }\n      ],\n      \"fare\": {\n        \"basePrice\": 850000,\n        \"taxes\": 100000,\n        \"totalPrice\": 950000,\n        \"currencyCode\": \"IDR\",\n        \"class\": \"Y\"\n      },\n      \"seatsAvailable\": 41,\n      \"aircraftModel\": \"Airbus A320\",\n      \"baggageInfo\": \"7kg cabin, 20kg checked\",\n      \"onboardServices\": [\n        \"Snack\"\n      ]\n    }\n  ]\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "templating",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "eb5acb49-ed45-4f10-b0ca-7699179039b3",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "airasia",
+      "responses": [
+        {
+          "uuid": "0198a1a3-fa3a-41c7-b5a3-350e70484d98",
+          "body": "{\n  \"status\": \"error\"\n}",
+          "latency": 100,
+          "statusCode": 429,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f5fb350d-d037-43ea-a7b2-1d32d0ba4b36",
+          "body": "{\n  \"status\": \"ok\",\n  \"flights\": [\n    {\n      \"flight_code\": \"QZ520\",\n      \"airline\": \"AirAsia\",\n      \"from_airport\": \"CGK\",\n      \"to_airport\": \"DPS\",\n      \"depart_time\": \"2025-12-15T04:45:00+07:00\",\n      \"arrive_time\": \"2025-12-15T07:25:00+08:00\",\n      \"duration_hours\": 1.67,\n      \"direct_flight\": true,\n      \"price_idr\": 650000,\n      \"seats\": 67,\n      \"cabin_class\": \"economy\",\n      \"baggage_note\": \"Cabin baggage only, checked bags additional fee\"\n    },\n    {\n      \"flight_code\": \"QZ524\",\n      \"airline\": \"AirAsia\",\n      \"from_airport\": \"CGK\",\n      \"to_airport\": \"DPS\",\n      \"depart_time\": \"2025-12-15T10:00:00+07:00\",\n      \"arrive_time\": \"2025-12-15T12:45:00+08:00\",\n      \"duration_hours\": 1.75,\n      \"direct_flight\": true,\n      \"price_idr\": 720000,\n      \"seats\": 54,\n      \"cabin_class\": \"economy\",\n      \"baggage_note\": \"Cabin baggage only, checked bags additional fee\"\n    },\n    {\n      \"flight_code\": \"QZ532\",\n      \"airline\": \"AirAsia\",\n      \"from_airport\": \"CGK\",\n      \"to_airport\": \"DPS\",\n      \"depart_time\": \"2025-12-15T19:30:00+07:00\",\n      \"arrive_time\": \"2025-12-15T22:10:00+08:00\",\n      \"duration_hours\": 1.67,\n      \"direct_flight\": true,\n      \"price_idr\": 595000,\n      \"seats\": 72,\n      \"cabin_class\": \"economy\",\n      \"baggage_note\": \"Cabin baggage only, checked bags additional fee\"\n    },\n    {\n      \"flight_code\": \"QZ7250\",\n      \"airline\": \"AirAsia\",\n      \"from_airport\": \"CGK\",\n      \"to_airport\": \"DPS\",\n      \"depart_time\": \"2025-12-15T15:15:00+07:00\",\n      \"arrive_time\": \"2025-12-15T20:35:00+08:00\",\n      \"duration_hours\": 4.33,\n      \"direct_flight\": false,\n      \"stops\": [\n        {\n          \"airport\": \"SOC\",\n          \"wait_time_minutes\": 95\n        }\n      ],\n      \"price_idr\": 485000,\n      \"seats\": 88,\n      \"cabin_class\": \"economy\",\n      \"baggage_note\": \"Cabin baggage only, checked bags additional fee\"\n    }\n  ]\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "templating",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "59ce4437-68e4-4286-b48b-9fc20563cec7",
+          "body": "{\n  \"status\": \"error\"\n}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": "RANDOM",
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "b5f4c8c7-685e-45e1-bf44-f3ef4715739c"
+    },
+    {
+      "type": "route",
+      "uuid": "df9f0d75-7cd0-448b-9b8a-bc3713c3aea6"
+    },
+    {
+      "type": "route",
+      "uuid": "5aa9ac47-c2d8-4f51-9c85-a1e401a8e54f"
+    },
+    {
+      "type": "route",
+      "uuid": "eb5acb49-ed45-4f10-b0ca-7699179039b3"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "af11b467-38e8-4392-875a-b9e4b1d47bd1",
+      "id": "cxe0",
+      "name": "rate_config",
+      "documentation": "",
+      "value": "{\n  \"last_request_timestamps\": [],\n  \"max_requests_per_seconds\": 2\n}"
+    }
+  ],
+  "callbacks": []
+}

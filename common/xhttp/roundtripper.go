@@ -1,4 +1,4 @@
-package xhtpp
+package xhttp
 
 type ThirdParty struct {
 	Service    string `json:"service"`

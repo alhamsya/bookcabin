@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  mockoon:
+    image: mockoon/cli:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./mockoon-airline.json:/data:ro
+    command: ["--data", "data", "--port", "3000"]
+    networks:
+      - apps
+  
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - apps
+
+networks:
+  apps:
+    driver: bridge
+
+volumes:
+  redis_data:

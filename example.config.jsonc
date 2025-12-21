@@ -29,29 +29,101 @@
             "pool-fifo": true,
             "pool-size": 10,
             "pool-timeout": "4s",
-            "port": 6380,
+            "port": 6379,
             "read-timeout": "3s"
         },
         "upstream": {
             "garuda": {
                 "type": "rest",
                 "enable-tls": true,
-                "host": "",
-                "extras": {
+                "host": "http://localhost:3000/airline",
+                "extra": {
 
                 },
-                "endpoints": {
-                    "search": {
-                        "path": "",
+                "endpoint": {
+                    "flight": {
+                        "path": "/garuda",
                         "retry": {
-                            "attempts": 3,
+                            "attempt": 3,
                             "delay": "100ms",
                             "type": "exponential"
                         }
                     }
                 },
                 "global-retry": {
-                    "attempts": 3,
+                    "attempt": 3,
+                    "delay": "100s",
+                    "timeout": "5s",
+                    "type": "exponential"
+                }
+            },
+            "lion": {
+                "type": "rest",
+                "enable-tls": true,
+                "host": "http://localhost:3000/airline",
+                "extra": {
+
+                },
+                "endpoint": {
+                    "flight": {
+                        "path": "/lion",
+                        "retry": {
+                            "attempt": 3,
+                            "delay": "100ms",
+                            "type": "exponential"
+                        }
+                    }
+                },
+                "global-retry": {
+                    "attempt": 3,
+                    "delay": "100s",
+                    "timeout": "5s",
+                    "type": "exponential"
+                }
+            },
+            "batik": {
+                "type": "rest",
+                "enable-tls": true,
+                "host": "http://localhost:3000/airline",
+                "extras": {
+
+                },
+                "endpoint": {
+                    "flight": {
+                        "path": "/batik",
+                        "retry": {
+                            "attempt": 3,
+                            "delay": "100ms",
+                            "type": "exponential"
+                        }
+                    }
+                },
+                "global-retry": {
+                    "attempt": 3,
+                    "delay": "100s",
+                    "timeout": "5s",
+                    "type": "exponential"
+                }
+            },
+            "airasia": {
+                "type": "rest",
+                "enable-tls": true,
+                "host": "http://localhost:3000/airline",
+                "extras": {
+
+                },
+                "endpoint": {
+                    "flight": {
+                        "path": "/airasia",
+                        "retry": {
+                            "attempt": 3,
+                            "delay": "100ms",
+                            "type": "exponential"
+                        }
+                    }
+                },
+                "global-retry": {
+                    "attempt": 3,
                     "delay": "100s",
                     "timeout": "5s",
                     "type": "exponential"

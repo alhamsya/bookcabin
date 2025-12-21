@@ -1,15 +1,27 @@
 package flight
 
-import "github.com/alhamsya/bookcabin/internal/core/port"
+import (
+	"github.com/alhamsya/bookcabin/internal/core/port"
+	"github.com/alhamsya/bookcabin/lib/manager/config"
+)
 
-type FlightParam struct {
-}
-type FlightService struct {
-	cache port.CacheRepo
+type Service struct {
+	Cfg   *config.Application
+	Cache port.CacheRepo
+
+	AirAsiaRepo port.AirAsiaRepo
+	BatikRepo   port.BatikRepo
+	GarudaRepo  port.GarudaRepo
+	LionRepo    port.LionRepo
 }
 
-func NewFlightService(cache port.CacheRepo) *FlightService {
-	return &FlightService{
-		cache,
+func NewFlightService(param *Service) *Service {
+	return &Service{
+		Cfg:         param.Cfg,
+		Cache:       param.Cache,
+		AirAsiaRepo: param.AirAsiaRepo,
+		BatikRepo:   param.BatikRepo,
+		GarudaRepo:  param.GarudaRepo,
+		LionRepo:    param.LionRepo,
 	}
 }

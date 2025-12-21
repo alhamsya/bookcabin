@@ -1,20 +1,23 @@
 package config
 
-import "time"
+import (
+	"github.com/alhamsya/bookcabin/common/xhttp"
+	"time"
+)
 
 type Static struct {
-	Env      string      `mapstructure:"env"`
-	Frontend Frontend    `mapstructure:"frontend"`
-	App      App         `mapstructure:"app"`
-	Upstream Upstream    `mapstructure:"upstream" validate:"required"`
-	Redis    StaticRedis `mapstructure:"redis"`
+	Env      string       `mapstructure:"env" validated:"required"`
+	Frontend *Frontend    `mapstructure:"frontend"`
+	App      *App         `mapstructure:"app" validated:"required"`
+	Upstream *Upstream    `mapstructure:"upstream" validate:"required"`
+	Redis    *StaticRedis `mapstructure:"redis" validated:"required"`
 }
 
 type App struct {
 	Rest Rest `mapstructure:"rest"`
 }
 type Rest struct {
-	Port        int           `mapstructure:"port"`
+	Port        int           `mapstructure:"port" validated:"required"`
 	ReadTimeout time.Duration `mapstructure:"read-timeout"`
 	IdleTimeout time.Duration `mapstructure:"idle-timeout"`
 	Limiter     Limiter       `mapstructure:"limiter"`
@@ -30,8 +33,8 @@ type Frontend struct {
 }
 
 type StaticRedis struct {
-	Host                string        `mapstructure:"host"`
-	Port                int           `mapstructure:"port"`
+	Host                string        `mapstructure:"host" validated:"required"`
+	Port                int           `mapstructure:"port" validated:"required"`
 	DB                  int           `mapstructure:"db"`
 	IdleTimeout         string        `mapstructure:"idle-timeout"`
 	PoolTimeout         string        `mapstructure:"pool-timeout"`
@@ -44,4 +47,5 @@ type StaticRedis struct {
 }
 
 type Upstream struct {
+	Garuda *xhttp.UpstreamConfig `mapstructure:"garuda" json:"garuda" validated:"required"`
 }

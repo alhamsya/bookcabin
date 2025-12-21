@@ -1,4 +1,4 @@
-package xhtpp
+package xhttp
 
 import (
 	"context"
