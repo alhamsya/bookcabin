@@ -48,7 +48,7 @@
           "rules": [
             {
               "target": "templating",
-              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 5000}}{{setGlobalVar 'lastCall' (now 'T')}}",
               "value": "true",
               "invert": false,
               "operator": "equals"
@@ -106,7 +106,7 @@
           "rules": [
             {
               "target": "templating",
-              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 5000}}{{setGlobalVar 'lastCall' (now 'T')}}",
               "value": "true",
               "invert": false,
               "operator": "equals"
@@ -164,7 +164,7 @@
           "rules": [
             {
               "target": "templating",
-              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 5000}}{{setGlobalVar 'lastCall' (now 'T')}}",
               "value": "true",
               "invert": false,
               "operator": "equals"
@@ -222,7 +222,7 @@
           "rules": [
             {
               "target": "templating",
-              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 3000}}{{setGlobalVar 'lastCall' (now 'T')}}",
+              "modifier": "{{gte (subtract (now 'T') (getGlobalVar 'lastCall')) 5000}}{{setGlobalVar 'lastCall' (now 'T')}}",
               "value": "true",
               "invert": false,
               "operator": "equals"

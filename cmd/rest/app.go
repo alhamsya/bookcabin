@@ -2,18 +2,16 @@ package rest
 
 import (
 	"context"
-
-	"github.com/alhamsya/bookcabin/internal/adapter/airline/airasia"
-	"github.com/alhamsya/bookcabin/internal/adapter/airline/batik"
-	"github.com/alhamsya/bookcabin/internal/adapter/airline/garuda"
-	"github.com/alhamsya/bookcabin/internal/adapter/airline/lion"
-
-	"github.com/alhamsya/bookcabin/internal/adapter/handler/rest"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/alhamsya/bookcabin/internal/adapter/airline/airasia"
+	"github.com/alhamsya/bookcabin/internal/adapter/airline/batik"
+	"github.com/alhamsya/bookcabin/internal/adapter/airline/garuda"
+	"github.com/alhamsya/bookcabin/internal/adapter/airline/lion"
+	"github.com/alhamsya/bookcabin/internal/adapter/handler/rest"
 	"github.com/alhamsya/bookcabin/internal/adapter/redis"
 	"github.com/alhamsya/bookcabin/internal/core/service/flight"
 	"github.com/alhamsya/bookcabin/lib/manager/config"
