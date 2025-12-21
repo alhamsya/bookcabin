@@ -2,18 +2,19 @@ package flight
 
 import (
 	"context"
-	"github.com/alhamsya/bookcabin/internal/core/domain/request"
-	"sync"
-
-	"github.com/alhamsya/bookcabin/internal/core/domain/response"
-	"github.com/pkg/errors"
-	"github.com/rs/zerolog"
-
 	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
+	"github.com/alhamsya/bookcabin/internal/core/domain/response"
+	"github.com/alhamsya/bookcabin/lib/util"
+	"github.com/pkg/errors"
+	"net/http"
+	"slices"
+	"sort"
+	"strings"
 )
 
-func (s *Service) Search(ctx context.Context, param *modelRequest.ReqSearchFlight) (modelResponse.Common, error) {
+func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (modelResponse.Common, error) {
 	// 1. check cache in L1 in-memory
+
 	// 2. call providers airline using asynchronous
 	// 		2.1. check data in redis
 	// 		2.2. call provider using retry mechanism
@@ -30,51 +31,91 @@ func (s *Service) Search(ctx context.Context, param *modelRequest.ReqSearchFligh
 			continue
 		}
 
+		// 4. calculate best value score (ranking)
+		applyRanking(&info)
+
 		out = append(out, info)
 	}
 
-	// 4. calculate best value score (ranking)
 	// 5. sort result
+	sort.Slice(out, func(i, j int) bool {
+		return out[i].BestValueScore > out[j].BestValueScore
+	})
+
 	// 6. set metadata
+
 	// 7. save to cache in L1 in-memory
 
-	return modelResponse.Common{}, nil
+	return modelResponse.Common{
+		HttpCode: http.StatusOK,
+		Data:     out,
+	}, nil
 }
 
 func (s *Service) callProviders(ctx context.Context) ([]modelFlight.Info, error) {
-	var (
-		wg   sync.WaitGroup
-		mu   sync.Mutex
-		out  []modelFlight.Info
-		errs = make(map[string]error)
-	)
+	var out []modelFlight.Info
+	outAirAsia, _ := s.AirAsiaRepo.GetFlight(ctx)
+	outBatik, _ := s.BatikRepo.GetFlight(ctx)
+	outGaruda, _ := s.GarudaRepo.GetFlight(ctx)
+	outLion, _ := s.LionRepo.GetFlight(ctx)
 
-	run := func(name string, fn func(context.Context) ([]modelFlight.Info, error)) {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+	out = append(out, outAirAsia...)
+	out = append(out, outBatik...)
+	out = append(out, outGaruda...)
+	out = append(out, outLion...)
 
-			flights, err := fn(ctx)
+	return out, nil
+}
 
-			mu.Lock()
-			defer mu.Unlock()
-
-			if err != nil {
-				errs[name] = err
-				return
-			}
-			out = append(out, flights...)
-		}()
+func applyFilter(info modelFlight.Info, req *modelFlight.ReqSearch) bool {
+	// origin & destination
+	if !strings.EqualFold(strings.TrimSpace(info.Route.Origin), strings.TrimSpace(req.Origin)) {
+		return false
+	}
+	if !strings.EqualFold(strings.TrimSpace(info.Route.Destination), strings.TrimSpace(req.Destination)) {
+		return false
 	}
 
-	run("airasia", s.AirAsiaRepo.GetFlight)
-	run("batik", s.BatikRepo.GetFlight)
-	run("garuda", s.GarudaRepo.GetFlight)
-	run("lion", s.LionRepo.GetFlight)
+	// Departure date (YYYY-MM-DD)
+	if req.DepartureDate.IsZero() {
+		if info.Schedule.DepartureTime != req.DepartureDate {
+			return false
+		}
+	}
 
-	wg.Wait()
-	zerolog.Ctx(ctx).Warn().
-		Interface("errors", errs).
-		Msg("test")
-	return out, nil
+	f := req.Filters
+	// Price range
+	if f.MinPrice > 0 && info.Price.Amount < f.MinPrice {
+		return false
+	}
+	if f.MaxPrice > 0 && info.Price.Amount > f.MaxPrice {
+		return false
+	}
+
+	// Stops (list)
+	if len(f.Stops) > 0 && !slices.Contains(f.Stops, info.Stops) {
+		return false
+	}
+
+	// Airlines (by code)
+	if len(f.Airlines) > 0 && !slices.Contains(f.Airlines, info.Airline.Code) {
+		return false
+	}
+
+	// Duration
+	if f.MaxDurationMinutes > 0 && info.Duration.TotalMinutes > f.MaxDurationMinutes {
+		return false
+	}
+
+	// Arrival time window (uses only time-of-day)
+	if !req.DepartureDate.IsZero() && !req.ArrivalDate.IsZero() {
+		if !util.WithinTimeWindow(info.Schedule.DepartureTime, req.DepartureDate, req.ArrivalDate) {
+			return false
+		}
+	}
+	return true
+}
+
+func applyRanking(info *modelFlight.Info) {
+	info.BestValueScore = float64(info.Price.Amount) / float64(info.Duration.TotalMinutes)
 }

@@ -33,11 +33,11 @@ func (a *Airline) GetFlight(ctx context.Context) ([]modelFlight.Info, error) {
 
 	out := make([]modelFlight.Info, 0, len(respBatik.Results))
 	for _, data := range respBatik.Results {
-		dep, err := time.Parse(time.RFC3339, data.DepartureDateTime)
+		dep, err := time.Parse("2006-01-02T15:04:05-0700", data.DepartureDateTime)
 		if err != nil {
 			return nil, errors.Wrapf(err, "batik invalid departureDateTime (%s)", data.FlightNumber)
 		}
-		arr, err := time.Parse(time.RFC3339, data.ArrivalDateTime)
+		arr, err := time.Parse("2006-01-02T15:04:05-0700", data.ArrivalDateTime)
 		if err != nil {
 			return nil, errors.Wrapf(err, "batik invalid arrivalDateTime (%s)", data.FlightNumber)
 		}

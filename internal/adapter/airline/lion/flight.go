@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
 	"net/http"
 	"time"
 
@@ -42,11 +43,11 @@ func (a *Airline) GetFlight(ctx context.Context) ([]modelFlight.Info, error) {
 			return nil, errors.Wrapf(err, "lion invalid arrival_timezone (%s)", data.ID)
 		}
 
-		dep, err := time.ParseInLocation(time.RFC3339, data.Schedule.Departure, locDep)
+		dep, err := time.ParseInLocation(constant.DateTimeWithoutTimezone, data.Schedule.Departure, locDep)
 		if err != nil {
 			return nil, errors.Wrapf(err, "lion invalid departure time (%s)", data.ID)
 		}
-		arr, err := time.ParseInLocation(time.RFC3339, data.Schedule.Arrival, locArr)
+		arr, err := time.ParseInLocation(constant.DateTimeWithoutTimezone, data.Schedule.Arrival, locArr)
 		if err != nil {
 			return nil, errors.Wrapf(err, "lion invalid arrival time (%s)", data.ID)
 		}

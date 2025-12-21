@@ -25,6 +25,8 @@ type Info struct {
 	Price Price
 
 	SeatsAvailable int
+
+	BestValueScore float64
 }
 
 type Airline struct {

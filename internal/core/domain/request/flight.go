@@ -1,8 +1,6 @@
 package modelRequest
 
 import (
-	"time"
-
 	"github.com/go-playground/validator/v10"
 )
 
@@ -10,7 +8,7 @@ type ReqSearchFlight struct {
 	Origin        string  `json:"origin" validate:"required,min=3,max=3"`
 	Destination   string  `json:"destination" validate:"required,min=3,max=3"`
 	DepartureDate string  `json:"departureDate" validate:"required"`
-	ReturnDate    any     `json:"returnDate" validate:"required"`
+	ArrivalDate   string  `json:"arrivalDate"`
 	Passengers    int     `json:"passengers" validate:"required,gte=1"`
 	CabinClass    string  `json:"cabinClass" validate:"required"`
 	Sort          Sort    `json:"sort"`
@@ -22,21 +20,19 @@ type Sort struct {
 	Order string `json:"order"`
 }
 type DepartureTime struct {
-	From time.Time `json:"from"`
-	To   time.Time `json:"to"`
+	From string `json:"from"`
+	To   string `json:"to"`
 }
 type ArrivalTime struct {
-	From time.Time `json:"from"`
-	To   time.Time `json:"to"`
+	From string `json:"from"`
+	To   string `json:"to"`
 }
 type Filters struct {
-	MinPrice           int           `json:"minPrice"`
-	MaxPrice           int           `json:"maxPrice"`
-	Stops              []int         `json:"stops"`
-	Airlines           []string      `json:"airlines"`
-	DepartureTime      DepartureTime `json:"departureTime"`
-	ArrivalTime        ArrivalTime   `json:"arrivalTime"`
-	MaxDurationMinutes int           `json:"maxDurationMinutes"`
+	MinPrice           int      `json:"minPrice"`
+	MaxPrice           int      `json:"maxPrice"`
+	Stops              []int    `json:"stops"`
+	Airlines           []string `json:"airlines"`
+	MaxDurationMinutes int      `json:"maxDurationMinutes"`
 }
 
 type ErrorResponse struct {

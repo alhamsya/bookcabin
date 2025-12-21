@@ -3,7 +3,6 @@ package modelResponse
 type Common struct {
 	HttpCode int `json:"-"`
 
-	Message string   `json:"message"`
-	Data    any      `json:"data"`
-	Errors  []string `json:"errors"`
+	Data   any      `json:"data"`
+	Errors []string `json:"errors"`
 }

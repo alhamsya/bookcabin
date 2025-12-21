@@ -1,8 +1,8 @@
 {
     "credential": {
         "redis": {
-            "password": "example-password",
-            "username": "example-username"
+            "password": "",
+            "username": ""
         }
     },
     "static": {
