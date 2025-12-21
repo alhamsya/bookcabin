@@ -6,6 +6,6 @@ type Response struct {
 	Data     interface{} `json:"data"`
 	Message  string      `json:"message"`
 	error    error
-	HttpCode int
+	httpCode int
 	ctx      *fiber.Ctx
 }

@@ -1,7 +1,7 @@
 package flight
 
 import (
-	"github.com/alhamsya/bookcabin/internal/core/port"
+	"github.com/alhamsya/bookcabin/internal/core/port/repository"
 	"github.com/alhamsya/bookcabin/lib/manager/config"
 )
 

@@ -47,5 +47,8 @@ type StaticRedis struct {
 }
 
 type Upstream struct {
-	Garuda *xhttp.UpstreamConfig `mapstructure:"garuda" json:"garuda" validated:"required"`
+	AirAsia *xhttp.UpstreamConfig `mapstructure:"airasia" json:"airasia" validated:"required"`
+	Batik   *xhttp.UpstreamConfig `mapstructure:"batik" json:"batik" validated:"required"`
+	Garuda  *xhttp.UpstreamConfig `mapstructure:"garuda" json:"garuda" validated:"required"`
+	Lion    *xhttp.UpstreamConfig `mapstructure:"lion" json:"lion" validated:"required"`
 }

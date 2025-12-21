@@ -1,22 +1,22 @@
-package airline
+package modelGaruda
 
 import "time"
 
-type GarudaFlightResp struct {
+type FlightResp struct {
 	Status  string    `json:"status"`
 	Flights []Flights `json:"flights"`
 }
 type Departure struct {
-	Airport  string    `json:"airport"`
-	City     string    `json:"city"`
-	Time     time.Time `json:"time"`
-	Terminal string    `json:"terminal"`
+	Airport  string `json:"airport"`
+	City     string `json:"city"`
+	Time     string `json:"time"`
+	Terminal string `json:"terminal"`
 }
 type Arrival struct {
-	Airport  string    `json:"airport"`
-	City     string    `json:"city"`
-	Time     time.Time `json:"time"`
-	Terminal string    `json:"terminal"`
+	Airport  string `json:"airport"`
+	City     string `json:"city"`
+	Time     string `json:"time"`
+	Terminal string `json:"terminal"`
 }
 type Price struct {
 	Amount   int    `json:"amount"`

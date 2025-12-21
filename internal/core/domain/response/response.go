@@ -1,4 +1,4 @@
-package response
+package modelResponse
 
 type Common struct {
 	HttpCode int `json:"-"`

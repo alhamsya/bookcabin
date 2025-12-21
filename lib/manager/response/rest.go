@@ -29,7 +29,7 @@ func (r *Response) SetErr(err error) *Response {
 }
 
 func (r *Response) SetHttpCode(httpCode int) *Response {
-	r.HttpCode = httpCode
+	r.httpCode = httpCode
 	return r
 }
 
@@ -37,16 +37,16 @@ func (r *Response) Send(arg ...string) (resp error) {
 	args := strings.Join(arg, "|")
 
 	//valida http code
-	if r.HttpCode <= 0 {
-		r.HttpCode = fiber.StatusInternalServerError
+	if r.httpCode <= 0 {
+		r.httpCode = fiber.StatusInternalServerError
 	}
 
-	if r.HttpCode < fiber.StatusContinue {
-		r.HttpCode = fiber.StatusOK
+	if r.httpCode < fiber.StatusContinue {
+		r.httpCode = fiber.StatusOK
 	}
 
 	//validate message for http code
-	switch r.HttpCode / 100 {
+	switch r.httpCode / 100 {
 	case fiber.StatusOK / 100:
 		r.Message = r.Message + " successfully"
 	case fiber.StatusBadRequest / 100:
@@ -63,6 +63,6 @@ func (r *Response) Send(arg ...string) (resp error) {
 		r.Message = "please try again"
 	}
 
-	resp = r.ctx.Status(r.HttpCode).JSON(&r)
+	resp = r.ctx.Status(r.httpCode).JSON(&r)
 	return resp
 }

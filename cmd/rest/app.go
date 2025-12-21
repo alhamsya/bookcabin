@@ -3,9 +3,9 @@ package rest
 import (
 	"context"
 
-	"github.com/alhamsya/bookcabin/internal/adapter/airline/garuda"
 	"github.com/alhamsya/bookcabin/internal/adapter/airline/airasia"
 	"github.com/alhamsya/bookcabin/internal/adapter/airline/batik"
+	"github.com/alhamsya/bookcabin/internal/adapter/airline/garuda"
 	"github.com/alhamsya/bookcabin/internal/adapter/airline/lion"
 
 	"github.com/alhamsya/bookcabin/internal/adapter/handler/rest"

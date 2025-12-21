@@ -23,5 +23,5 @@ func (h *Handler) Register() {
 	h.App.Get("/", h.GetRoot)
 
 	flight := h.App.Group("/v1").Group("/flight")
-	flight.Get("/search", h.SearchFlights)
+	flight.Get("/search", h.GetSearchFlight)
 }
