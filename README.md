@@ -122,7 +122,7 @@ by default host mock: `localhost:3000`
 }
 ```
 
-**Response**:
+**Response** `OK (200)`:
 ```json
 {
     "data": {
@@ -167,5 +167,22 @@ by default host mock: `localhost:3000`
         }
     },
     "message": "success searching flight successfully"
+}
+```
+
+**Response** `Bad request (400)`:
+```json
+{
+    "data": null,
+    "message": "please check your request",
+    "error": {
+        "errors": [
+            {
+                "field": "origin",
+                "tag": "min",
+                "value": "3"
+            }
+        ]
+    }
 }
 ```

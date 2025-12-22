@@ -1,6 +1,7 @@
 package modelRequest
 
 import (
+	"github.com/alhamsya/bookcabin/pkg/util"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -36,23 +37,43 @@ type Filters struct {
 }
 
 type ErrorResponse struct {
-	FailedField string
-	Tag         string
-	Value       string
+	Field string `json:"field"`
+	Tag   string `json:"tag"`
+	Value string `json:"value,omitempty"`
 }
 
-func (req ReqSearchFlight) ValidateStruct() []*ErrorResponse {
-	var errors []*ErrorResponse
-	validate := validator.New()
-	err := validate.Struct(req)
-	if err != nil {
-		for _, err := range err.(validator.ValidationErrors) {
-			var element ErrorResponse
-			element.FailedField = err.StructNamespace()
-			element.Tag = err.Tag()
-			element.Value = err.Param()
-			errors = append(errors, &element)
-		}
+type ValidationError struct {
+	Errors []ErrorResponse `json:"errors"`
+}
+
+func (e ValidationError) Error() string {
+	return "validation failed"
+}
+
+func (req ReqSearchFlight) ValidateStruct() error {
+	v := validator.New()
+
+	err := v.Struct(req)
+	if err == nil {
+		return nil
 	}
-	return errors
+
+	ve, ok := err.(validator.ValidationErrors)
+	if !ok {
+		return ValidationError{Errors: []ErrorResponse{{
+			Field: "request",
+			Tag:   "invalid",
+		}}}
+	}
+
+	out := make([]ErrorResponse, 0, len(ve))
+	for _, fe := range ve {
+		out = append(out, ErrorResponse{
+			Field: util.GetFieldName(req, fe.StructField(), "json"),
+			Tag:   fe.Tag(),
+			Value: fe.Param(),
+		})
+	}
+
+	return ValidationError{Errors: out}
 }

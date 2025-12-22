@@ -18,21 +18,28 @@ func (h *Handler) SearchFlight(ctx *fiber.Ctx) error {
 	err := ctx.BodyParser(req)
 	if err != nil {
 		return response.New(ctx).SetHttpCode(http.StatusBadRequest).
-			SetErr(err).SetData("please check request body").Send()
+			SetErr(err).SetMessage("please check request body").Send()
 	}
 
 	var departureDate, arrivalDate time.Time
 	departureDate, err = time.Parse(constant.DateOnly, req.DepartureDate)
 	if err != nil {
 		return response.New(ctx).SetHttpCode(http.StatusBadRequest).
-			SetErr(err).SetData("please check request departureDate").Send()
+			SetErr(err).SetMessage("please check request departureDate").Send()
 	}
 	if req.ArrivalDate != "" {
 		arrivalDate, err = time.Parse(constant.DateOnly, req.ArrivalDate)
 		if err != nil {
 			return response.New(ctx).SetHttpCode(http.StatusBadRequest).
-				SetErr(err).SetData("please check request arrivalDate").Send()
+				SetErr(err).SetMessage("please check request arrivalDate").Send()
 		}
+	}
+
+	errValidate := req.ValidateStruct()
+	if errValidate != nil {
+		return response.New(ctx).SetHttpCode(http.StatusBadRequest).
+			SetErr(errValidate).
+			SetMessage("please check your request").Send()
 	}
 
 	resp, err := h.Interactor.FlightService.Search(ctx.Context(), &modelFlight.ReqSearch{

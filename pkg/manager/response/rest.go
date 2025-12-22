@@ -1,10 +1,7 @@
 package response
 
 import (
-	"strings"
-
 	"github.com/gofiber/fiber/v2"
-	"github.com/pkg/errors"
 )
 
 func New(ctx *fiber.Ctx) *Response {
@@ -24,7 +21,7 @@ func (r *Response) SetData(data any) *Response {
 }
 
 func (r *Response) SetErr(err error) *Response {
-	r.error = err
+	r.Error = err
 	return r
 }
 
@@ -34,7 +31,7 @@ func (r *Response) SetHttpCode(httpCode int) *Response {
 }
 
 func (r *Response) Send(arg ...string) (resp error) {
-	args := strings.Join(arg, "|")
+	//args := strings.Join(arg, "|")
 
 	//valida http code
 	if r.httpCode <= 0 {
@@ -50,14 +47,14 @@ func (r *Response) Send(arg ...string) (resp error) {
 	case fiber.StatusOK / 100:
 		r.Message = r.Message + " successfully"
 	case fiber.StatusBadRequest / 100:
-		//replace message from args
-		if strings.TrimSpace(args) != "" {
-			r.Message = args
-		}
-
-		if strings.TrimSpace(args) == "" && r.error != nil {
-			r.Message = errors.Cause(r.error).Error()
-		}
+		////replace message from args
+		//if strings.TrimSpace(args) != "" {
+		//	r.Message = args
+		//}
+		//
+		//if strings.TrimSpace(args) == "" && r.error != nil {
+		//	r.Message = errors.Cause(r.error).Error()
+		//}
 
 	case fiber.StatusInternalServerError / 100:
 		r.Message = "please try again"
