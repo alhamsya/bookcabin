@@ -1,5 +1,12 @@
 # <img align="right" src="https://avatars.githubusercontent.com/u/56905970?s=60&v=4" alt="bookcabin" title="bookcabin" /> bookcabin
 
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/alhamsya/bookcabin)
+[![Sourcegraph](https://sourcegraph.com/github.com/alhamsya/bookcabin/-/badge.svg)](https://sourcegraph.com/github.com/alhamsya/bookcabin?badge)
+[![Documentation](https://godoc.org/github.com/alhamsya/bookcabin?status.svg)](https://godoc.org/github.com/alhamsya/bookcabin)
+[![codecov](https://codecov.io/gh/alhamsya/bookcabin/branch/master/graph/badge.svg?token=mDCHTd8WM7)](https://codecov.io/gh/alhamsya/bookcabin)
+[![Go Report Card](https://goreportcard.com/badge/github.com/alhamsya/bookcabin)](https://goreportcard.com/report/github.com/alhamsya/bookcabin)
+[![License](https://img.shields.io/github/license/alhamsya/bookcabin?color=blue)](https://raw.githubusercontent.com/alhamsya/bookcabin/master/LICENSE)
+
 ## 👀 Architecture
 - architecture repository: Hexagonal Architecture
 - web framework: fiber (https://gofiber.io/)
