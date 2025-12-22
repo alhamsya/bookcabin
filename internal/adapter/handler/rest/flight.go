@@ -1,14 +1,15 @@
 package rest
 
 import (
-	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
-	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
 	"net/http"
 	"time"
 
+	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
 	"github.com/alhamsya/bookcabin/internal/core/domain/request"
-	"github.com/alhamsya/bookcabin/lib/manager/response"
+	"github.com/alhamsya/bookcabin/pkg/manager/response"
 	"github.com/gofiber/fiber/v2"
+
+	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
 )
 
 // GetSearchFlight handle POST /v1/flights/search

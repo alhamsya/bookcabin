@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/alhamsya/bookcabin/common/xhttp"
-	"github.com/alhamsya/bookcabin/lib/util"
+	"github.com/alhamsya/bookcabin/pkg/manager/xhttp"
+	"github.com/alhamsya/bookcabin/pkg/util"
 	"github.com/pkg/errors"
 
 	modelLion "github.com/alhamsya/bookcabin/internal/core/domain/airline/lion"

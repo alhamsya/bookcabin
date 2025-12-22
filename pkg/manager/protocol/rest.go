@@ -9,8 +9,8 @@ import (
 	"os"
 
 	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
-	"github.com/alhamsya/bookcabin/lib/manager/config"
-	"github.com/alhamsya/bookcabin/lib/manager/graceful"
+	"github.com/alhamsya/bookcabin/pkg/manager/config"
+	"github.com/alhamsya/bookcabin/pkg/manager/graceful"
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

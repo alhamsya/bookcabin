@@ -7,7 +7,7 @@ import (
 
 	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
 	"github.com/alhamsya/bookcabin/internal/core/port/repository"
-	"github.com/alhamsya/bookcabin/lib/manager/config"
+	"github.com/alhamsya/bookcabin/pkg/manager/config"
 	"github.com/redis/go-redis/v9"
 )
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
 	"github.com/alhamsya/bookcabin/internal/core/domain/response"
-	"github.com/alhamsya/bookcabin/lib/util"
+	"github.com/alhamsya/bookcabin/pkg/util"
 	"github.com/pkg/errors"
 	"net/http"
 	"slices"

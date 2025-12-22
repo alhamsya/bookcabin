@@ -2,7 +2,7 @@ package rest
 
 import (
 	"github.com/alhamsya/bookcabin/internal/core/port/service"
-	"github.com/alhamsya/bookcabin/lib/manager/config"
+	"github.com/alhamsya/bookcabin/pkg/manager/config"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/alhamsya/bookcabin/common/xhttp"
+	"github.com/alhamsya/bookcabin/pkg/manager/xhttp"
 	"time"
 )
 

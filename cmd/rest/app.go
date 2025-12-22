@@ -14,8 +14,8 @@ import (
 	"github.com/alhamsya/bookcabin/internal/adapter/handler/rest"
 	"github.com/alhamsya/bookcabin/internal/adapter/redis"
 	"github.com/alhamsya/bookcabin/internal/core/service/flight"
-	"github.com/alhamsya/bookcabin/lib/manager/config"
-	"github.com/alhamsya/bookcabin/lib/manager/protocol"
+	"github.com/alhamsya/bookcabin/pkg/manager/config"
+	"github.com/alhamsya/bookcabin/pkg/manager/protocol"
 
 	_ "go.uber.org/automaxprocs" // Automatically set GOMAXPROCS to match Linux container CPU quota.
 )
