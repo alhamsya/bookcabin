@@ -186,3 +186,11 @@ by default host mock: `localhost:3000`
     }
 }
 ```
+
+**Response** `Internal Server Error (500)`:
+```json
+{
+    "data": null,
+    "message": "please try again"
+}
+```

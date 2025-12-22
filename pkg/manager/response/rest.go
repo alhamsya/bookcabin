@@ -1,6 +1,8 @@
 package response
 
 import (
+	"errors"
+	modelRequest "github.com/alhamsya/bookcabin/internal/core/domain/request"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,6 +23,12 @@ func (r *Response) SetData(data any) *Response {
 }
 
 func (r *Response) SetErr(err error) *Response {
+	var valErr modelRequest.ValidationError
+	ok := errors.As(err, &valErr)
+	if !ok {
+		return r
+	}
+
 	r.Error = err
 	return r
 }
