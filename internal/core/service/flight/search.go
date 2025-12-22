@@ -144,6 +144,13 @@ func applyFilter(info modelFlight.Info, req *modelFlight.ReqSearch) bool {
 		}
 	}
 
+	// Arrival date (YYYY-MM-DD)
+	if !req.ArrivalDate.IsZero() {
+		if !req.ArrivalDate.Before(info.Schedule.ArrivalTime) {
+			return false
+		}
+	}
+
 	filter := req.Filters
 	// Price range
 	if filter.MinPrice > 0 && info.Price.Amount < filter.MinPrice {

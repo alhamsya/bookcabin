@@ -86,6 +86,13 @@ pkg/
     go run ./cmd/main.go run rest
     ```
 
+## ⚡️ Mock Documentation
+by default host mock: `localhost:3000`
+1. **Garuda Indonesia**: `GET {{HOST_MOCK}}/airline/gruda`
+2. **Lion Air**: `GET {{HOST_MOCK}}/airline/lion`
+3. **Batik Air**: `GET {{HOST_MOCK}}/airline/batik`
+4. **AirAsia**: `GET {{HOST_MOCK}}/airline/airasia`
+
 ## ⚡️ API Documentation
 ### Search Flights
 **Endpoint**: `POST /v1/flights/search`
