@@ -2,9 +2,11 @@ package port
 
 import (
 	"context"
+
 	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
 )
 
+//go:generate mockgen -package=mockrepo -source=$GOFILE -destination=../.././../test/mock/repository/$GOFILE
 type AirAsiaRepo interface {
 	GetFlight(ctx context.Context) ([]modelFlight.Info, error)
 }

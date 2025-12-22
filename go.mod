@@ -15,6 +15,7 @@ require (
 	github.com/tidwall/jsonc v0.3.2
 	github.com/urfave/cli/v2 v2.27.7
 	go.uber.org/automaxprocs v1.6.0
+	go.uber.org/mock v0.6.0
 )
 
 require (

@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//go:generate mockgen -package=mockrepo -source=$GOFILE -destination=../.././../test/mock/repository/$GOFILE
 // CacheRepo is an interface for interacting with cache-related business logic
 type CacheRepo interface {
 	// Set stores the value in the cache
