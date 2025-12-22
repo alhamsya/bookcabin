@@ -18,7 +18,7 @@ import (
 )
 
 func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (modelResponse.Common, error) {
-	// 1. check cache in L1 in-memory
+	// 1. check cache in L1 in-memory (optional)
 
 	// 2. call providers airline using asynchronous
 	// 		2.1. check data in cache in L2 redis
@@ -48,15 +48,16 @@ func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (mod
 	})
 
 	// 6. set metadata
+	metadata := &modelResponse.CommonMetadata{
+		TotalResult: len(out),
+	}
 
 	// 7. save to cache in L1 in-memory
 
 	return modelResponse.Common{
 		HttpCode: http.StatusOK,
 		Data:     out,
-		Metadata: modelResponse.CommonMetadata{
-			TotalResult: len(out),
-		},
+		Metadata: metadata,
 	}, nil
 }
 
