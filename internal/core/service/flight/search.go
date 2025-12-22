@@ -16,7 +16,7 @@ func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (mod
 	// 1. check cache in L1 in-memory
 
 	// 2. call providers airline using asynchronous
-	// 		2.1. check data in redis
+	// 		2.1. check data in cache in L2 redis
 	// 		2.2. call provider using retry mechanism
 	// 		2.3. save cache in L2 redis if provider success
 	listFlight, err := s.callProviders(ctx)
@@ -37,7 +37,7 @@ func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (mod
 		out = append(out, info)
 	}
 
-	// 5. sort result
+	// 5. sorting best value score
 	sort.Slice(out, func(i, j int) bool {
 		return out[i].BestValueScore > out[j].BestValueScore
 	})
