@@ -54,6 +54,9 @@ func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (mod
 	return modelResponse.Common{
 		HttpCode: http.StatusOK,
 		Data:     out,
+		Metadata: modelResponse.CommonMetadata{
+			TotalResult: len(out),
+		},
 	}, nil
 }
 
@@ -135,33 +138,33 @@ func applyFilter(info modelFlight.Info, req *modelFlight.ReqSearch) bool {
 	}
 
 	// Departure date (YYYY-MM-DD)
-	if req.DepartureDate.IsZero() {
-		if info.Schedule.DepartureTime != req.DepartureDate {
+	if !req.DepartureDate.IsZero() {
+		if !req.DepartureDate.Before(info.Schedule.DepartureTime) {
 			return false
 		}
 	}
 
-	f := req.Filters
+	filter := req.Filters
 	// Price range
-	if f.MinPrice > 0 && info.Price.Amount < f.MinPrice {
+	if filter.MinPrice > 0 && info.Price.Amount < filter.MinPrice {
 		return false
 	}
-	if f.MaxPrice > 0 && info.Price.Amount > f.MaxPrice {
+	if filter.MaxPrice > 0 && info.Price.Amount > filter.MaxPrice {
 		return false
 	}
 
 	// Stops (list)
-	if len(f.Stops) > 0 && !slices.Contains(f.Stops, info.Stops) {
+	if len(filter.Stops) > 0 && !slices.Contains(filter.Stops, info.Stops) {
 		return false
 	}
 
 	// Airlines (by code)
-	if len(f.Airlines) > 0 && !slices.Contains(f.Airlines, info.Airline.Code) {
+	if len(filter.Airlines) > 0 && !slices.Contains(filter.Airlines, info.Airline.Code) {
 		return false
 	}
 
 	// Duration
-	if f.MaxDurationMinutes > 0 && info.Duration.TotalMinutes > f.MaxDurationMinutes {
+	if filter.MaxDurationMinutes > 0 && info.Duration.TotalMinutes > filter.MaxDurationMinutes {
 		return false
 	}
 

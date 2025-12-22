@@ -59,5 +59,5 @@ func (h *Handler) SearchFlight(ctx *fiber.Ctx) error {
 			SetErr(err).SetMessage("failed searching flight").Send()
 	}
 	return response.New(ctx).SetHttpCode(resp.HttpCode).
-		SetData(resp.Data).SetMessage("success searching flight").Send()
+		SetData(resp).SetMessage("success searching flight").Send()
 }
