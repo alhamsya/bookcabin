@@ -22,33 +22,36 @@
   - `service`: directory that contains the business logic or services of the application
 - `pkg`: shared managing to support service and utilities
 ```
-cmd
+cmd/
 └── rest
-internal
-├── adapter
-│   ├── airline
+internal/
+├── adapter/
+│   ├── airline/
 │   │   ├── airasia
 │   │   ├── batik
 │   │   ├── garuda
 │   │   └── lion
-│   ├── handler
+│   ├── handler/
 │   │   └── rest
 │   └── redis
-└── core
-    ├── domain
-    │   ├── airline
-    │   ├── config
-    │   ├── constant
-    │   ├── flight
-    │   ├── request
-    │   └── response
-    ├── port
-    │   ├── repository
-    │   └── service
+├── core/
+│   ├── domain/
+│   │   ├── airline
+│   │   ├── config
+│   │   ├── constant
+│   │   ├── flight
+│   │   ├── request
+│   │   └── response
+│   ├── port/
+│   │   ├── repository
+│   │   └── service
+│   └── service/
+│       └── flight
+└── mock/
+    ├── repository
     └── service
-        └── flight
-pkg
-├── manager
+pkg/
+├── manager/
 │   ├── config
 │   ├── graceful
 │   ├── protocol
