@@ -42,7 +42,10 @@ func (h *Handler) SearchFlight(ctx *fiber.Ctx) error {
 		ArrivalDate:   arrivalDate,
 		Passengers:    req.Passengers,
 		CabinClass:    req.CabinClass,
-		Sort:          modelFlight.Sort{},
+		Sort: modelFlight.Sort{
+			Key:   req.Sort.Key,
+			Order: req.Sort.Order,
+		},
 		Filters: modelFlight.Filters{
 			MinPrice:           req.Filters.MinPrice,
 			MaxPrice:           req.Filters.MaxPrice,

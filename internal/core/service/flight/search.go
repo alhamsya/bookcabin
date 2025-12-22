@@ -2,14 +2,17 @@ package flight
 
 import (
 	"context"
-	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
-	"github.com/alhamsya/bookcabin/internal/core/domain/response"
-	"github.com/alhamsya/bookcabin/pkg/util"
-	"github.com/pkg/errors"
 	"net/http"
 	"slices"
 	"sort"
 	"strings"
+	"sync"
+
+	"github.com/alhamsya/bookcabin/internal/core/domain/flight"
+	"github.com/alhamsya/bookcabin/internal/core/domain/response"
+	"github.com/alhamsya/bookcabin/pkg/util"
+	"github.com/pkg/errors"
+	"github.com/rs/zerolog"
 )
 
 func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (modelResponse.Common, error) {
@@ -53,16 +56,48 @@ func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (mod
 }
 
 func (s *Service) callProviders(ctx context.Context) ([]modelFlight.Info, error) {
-	var out []modelFlight.Info
-	outAirAsia, _ := s.AirAsiaRepo.GetFlight(ctx)
-	outBatik, _ := s.BatikRepo.GetFlight(ctx)
-	outGaruda, _ := s.GarudaRepo.GetFlight(ctx)
-	outLion, _ := s.LionRepo.GetFlight(ctx)
+	var (
+		wg     sync.WaitGroup
+		mu     sync.Mutex
+		out    []modelFlight.Info
+		failed int
+	)
 
-	out = append(out, outAirAsia...)
-	out = append(out, outBatik...)
-	out = append(out, outGaruda...)
-	out = append(out, outLion...)
+	providers := map[string]func(context.Context) ([]modelFlight.Info, error){
+		"airasia": s.AirAsiaRepo.GetFlight,
+		"batik":   s.BatikRepo.GetFlight,
+		"garuda":  s.GarudaRepo.GetFlight,
+		"lion":    s.LionRepo.GetFlight,
+	}
+
+	for name, fn := range providers {
+		wg.Add(1)
+		go func(name string, fn func(context.Context) ([]modelFlight.Info, error)) {
+			defer wg.Done()
+
+			flights, err := fn(ctx)
+
+			mu.Lock()
+			defer mu.Unlock()
+
+			if err != nil {
+				failed++
+				zerolog.Ctx(ctx).
+					Warn().
+					Err(err).
+					Str("provider", name).
+					Msg("provider failed")
+				return
+			}
+
+			out = append(out, flights...)
+		}(name, fn)
+		wg.Wait()
+	}
+
+	if len(out) == 0 && failed == len(providers) {
+		return nil, errors.New("all providers failed")
+	}
 
 	return out, nil
 }
