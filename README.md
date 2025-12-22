@@ -3,7 +3,7 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/alhamsya/bookcabin)
 [![Sourcegraph](https://sourcegraph.com/github.com/alhamsya/bookcabin/-/badge.svg)](https://sourcegraph.com/github.com/alhamsya/bookcabin?badge)
 [![Documentation](https://godoc.org/github.com/alhamsya/bookcabin?status.svg)](https://godoc.org/github.com/alhamsya/bookcabin)
-[![codecov](https://codecov.io/gh/alhamsya/bookcabin/branch/master/graph/badge.svg?token=mDCHTd8WM7)](https://codecov.io/gh/alhamsya/bookcabin)
+[![codecov](https://codecov.io/gh/alhamsya/bookcabin/graph/badge.svg?token=PIN65DKRGQ)](https://codecov.io/gh/alhamsya/bookcabin)
 [![Go Report Card](https://goreportcard.com/badge/github.com/alhamsya/bookcabin)](https://goreportcard.com/report/github.com/alhamsya/bookcabin)
 [![License](https://img.shields.io/github/license/alhamsya/bookcabin?color=blue)](https://raw.githubusercontent.com/alhamsya/bookcabin/master/LICENSE)
 
