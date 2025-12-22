@@ -9,5 +9,11 @@ type Common struct {
 }
 
 type CommonMetadata struct {
-	TotalResult int `json:"total_result"`
+	TotalResult int  `json:"total_result"`
+	Sort        Sort `json:"sort"`
+}
+
+type Sort struct {
+	Key   string `json:"key"`
+	Order string `json:"order"`
 }

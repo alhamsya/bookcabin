@@ -18,6 +18,8 @@ import (
 )
 
 func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (modelResponse.Common, error) {
+	sortBy := strings.TrimSpace(strings.ToLower(param.Sort.Key))
+	order := strings.TrimSpace(strings.ToLower(param.Sort.Order))
 	// 1. check cache in L1 in-memory (optional)
 
 	// 2. call providers airline using asynchronous
@@ -42,14 +44,16 @@ func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (mod
 		out = append(out, info)
 	}
 
-	// 5. sorting best value score
-	sort.Slice(out, func(i, j int) bool {
-		return out[i].BestValueScore > out[j].BestValueScore
-	})
+	// 5. sorting
+	applySorting(out, sortBy, order)
 
 	// 6. set metadata
 	metadata := &modelResponse.CommonMetadata{
 		TotalResult: len(out),
+		Sort: modelResponse.Sort{
+			Key:   sortBy,
+			Order: order,
+		},
 	}
 
 	// 7. save to cache in L1 in-memory
@@ -187,4 +191,83 @@ func applyFilter(info modelFlight.Info, req *modelFlight.ReqSearch) bool {
 
 func applyRanking(info *modelFlight.Info) {
 	info.BestValueScore = float64(info.Price.Amount) / float64(info.Duration.TotalMinutes)
+}
+
+func applySorting(out []modelFlight.Info, sortBy, order string) {
+	if sortBy == "" {
+		return
+	}
+
+	asc := true
+	switch order {
+	case "desc", "highest", "longest", "latest":
+		asc = false
+	case "asc", "lowest", "shortest", "earliest", "":
+		asc = true
+	default:
+		asc = true
+	}
+
+	less := func(a, b bool) bool { return a && !b }
+
+	// default: best value score (desc)
+	if sortBy == "" {
+		sortBy = "best_value"
+		asc = false
+	}
+
+	sort.Slice(out, func(i, j int) bool {
+		a, b := out[i], out[j]
+
+		switch sortBy {
+		case "price":
+			if a.Price.Amount == b.Price.Amount {
+				// tie-breaker: earlier departure first
+				return a.Schedule.DepartureTime.Before(b.Schedule.DepartureTime)
+			}
+			if asc {
+				return a.Price.Amount < b.Price.Amount
+			}
+			return a.Price.Amount > b.Price.Amount
+
+		case "duration":
+			if a.Duration.TotalMinutes == b.Duration.TotalMinutes {
+				return a.Schedule.DepartureTime.Before(b.Schedule.DepartureTime)
+			}
+			if asc {
+				return a.Duration.TotalMinutes < b.Duration.TotalMinutes
+			}
+			return a.Duration.TotalMinutes > b.Duration.TotalMinutes
+
+		case "departure_time", "departure":
+			if a.Schedule.DepartureTime.Equal(b.Schedule.DepartureTime) {
+				// tie-breaker: cheaper first
+				return a.Price.Amount < b.Price.Amount
+			}
+			if asc {
+				return a.Schedule.DepartureTime.Before(b.Schedule.DepartureTime)
+			}
+			return a.Schedule.DepartureTime.After(b.Schedule.DepartureTime)
+
+		case "arrival_time", "arrival":
+			if a.Schedule.ArrivalTime.Equal(b.Schedule.ArrivalTime) {
+				return a.Price.Amount < b.Price.Amount
+			}
+			if asc {
+				return a.Schedule.ArrivalTime.Before(b.Schedule.ArrivalTime)
+			}
+			return a.Schedule.ArrivalTime.After(b.Schedule.ArrivalTime)
+
+		case "best_value", "best_value_score":
+			fallthrough
+		default:
+			if a.BestValueScore == b.BestValueScore {
+				return less(a.Schedule.DepartureTime.Before(b.Schedule.DepartureTime), true)
+			}
+			if asc {
+				return a.BestValueScore < b.BestValueScore
+			}
+			return a.BestValueScore > b.BestValueScore
+		}
+	})
 }

@@ -108,7 +108,7 @@ by default host mock: `localhost:3000`
     "cabinClass": "economy",
     "sort": {
         "key": "price",
-        "value": "asc"
+        "order": "desc"
     },
     "filters": {
         "minPrice": 2000,
@@ -125,37 +125,47 @@ by default host mock: `localhost:3000`
 **Response**:
 ```json
 {
-  "data": [
-    {
-      "ID": "ID7042_BATIK",
-      "Provider": "BATIK",
-      "Airline": {
-        "Name": "Batik Air",
-        "Code": "ID"
-      },
-      "Route": {
-        "Origin": "CGK",
-        "Destination": "DPS"
-      },
-      "Schedule": {
-        "DepartureTime": "2025-12-15T18:45:00+07:00",
-        "ArrivalTime": "2025-12-15T23:50:00+08:00",
-        "DepartureTs": 1765799100,
-        "ArrivalTs": 1765813800
-      },
-      "Duration": {
-        "TotalMinutes": 245,
-        "Formatted": "4h 5m"
-      },
-      "Stops": 1,
-      "Price": {
-        "Amount": 950000,
-        "Currency": "IDR"
-      },
-      "SeatsAvailable": 41,
-      "BestValueScore": 3877.5510204081634
-    }
-  ],
-  "message": "success searching flight successfully"
+    "data": {
+        "data": [
+            {
+                "ID": "ID7042_BATIK",
+                "Provider": "BATIK",
+                "Airline": {
+                    "Name": "Batik Air",
+                    "Code": "ID"
+                },
+                "Route": {
+                    "Origin": "CGK",
+                    "Destination": "DPS"
+                },
+                "Schedule": {
+                    "DepartureTime": "2025-12-15T18:45:00+07:00",
+                    "ArrivalTime": "2025-12-15T23:50:00+08:00",
+                    "DepartureTs": 1765799100,
+                    "ArrivalTs": 1765813800
+                },
+                "Duration": {
+                    "TotalMinutes": 245,
+                    "Formatted": "4h 5m"
+                },
+                "Stops": 1,
+                "Price": {
+                    "Amount": 950000,
+                    "Currency": "IDR"
+                },
+                "SeatsAvailable": 41,
+                "BestValueScore": 3877.5510204081634
+            }
+            // ... other
+        ],
+        "metadata": {
+            "total_result": 3,
+            "sort": {
+                "key": "price",
+                "order": "desc"
+            }
+        }
+    },
+    "message": "success searching flight successfully"
 }
 ```
