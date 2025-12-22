@@ -82,3 +82,70 @@ pkg
     ```bash
     go run ./cmd/main.go run rest
     ```
+
+## ⚡️ API Documentation
+### Search Flights
+**Endpoint**: `POST /v1/flights/search`
+
+**Request Body**:
+```json
+{
+    "origin": "CGK",
+    "destination": "DPS",
+    "departureDate": "2025-12-15",
+    "arrivalDate": "",
+    "passengers": 1,
+    "cabinClass": "economy",
+    "sort": {
+        "key": "price",
+        "value": "asc"
+    },
+    "filters": {
+        "minPrice": 2000,
+        "maxPrice": 2000000,
+        "stops": [
+            1
+        ],
+        "airlines": [],
+        "maxDurationMinutes": 1000
+    }
+}
+```
+
+**Response**:
+```json
+{
+  "data": [
+    {
+      "ID": "ID7042_BATIK",
+      "Provider": "BATIK",
+      "Airline": {
+        "Name": "Batik Air",
+        "Code": "ID"
+      },
+      "Route": {
+        "Origin": "CGK",
+        "Destination": "DPS"
+      },
+      "Schedule": {
+        "DepartureTime": "2025-12-15T18:45:00+07:00",
+        "ArrivalTime": "2025-12-15T23:50:00+08:00",
+        "DepartureTs": 1765799100,
+        "ArrivalTs": 1765813800
+      },
+      "Duration": {
+        "TotalMinutes": 245,
+        "Formatted": "4h 5m"
+      },
+      "Stops": 1,
+      "Price": {
+        "Amount": 950000,
+        "Currency": "IDR"
+      },
+      "SeatsAvailable": 41,
+      "BestValueScore": 3877.5510204081634
+    }
+  ],
+  "message": "success searching flight successfully"
+}
+```

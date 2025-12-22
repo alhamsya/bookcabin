@@ -12,8 +12,8 @@ import (
 	modelFlight "github.com/alhamsya/bookcabin/internal/core/domain/flight"
 )
 
-// GetSearchFlight handle POST /v1/flights/search
-func (h *Handler) GetSearchFlight(ctx *fiber.Ctx) error {
+// SearchFlight handle POST /v1/flights/search
+func (h *Handler) SearchFlight(ctx *fiber.Ctx) error {
 	req := new(modelRequest.ReqSearchFlight)
 	err := ctx.BodyParser(req)
 	if err != nil {
