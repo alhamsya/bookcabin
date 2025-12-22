@@ -2,17 +2,19 @@ package flight
 
 import (
 	"context"
-	"net/http"
-	"slices"
-	"sort"
-	"strings"
-	"sync"
-
+	"encoding/json"
+	"fmt"
+	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
 	"github.com/alhamsya/bookcabin/internal/core/domain/flight"
 	"github.com/alhamsya/bookcabin/internal/core/domain/response"
 	"github.com/alhamsya/bookcabin/pkg/util"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
+	"net/http"
+	"slices"
+	"sort"
+	"strings"
+	"sync"
 )
 
 func (s *Service) Search(ctx context.Context, param *modelFlight.ReqSearch) (modelResponse.Common, error) {
@@ -75,25 +77,46 @@ func (s *Service) callProviders(ctx context.Context) ([]modelFlight.Info, error)
 		go func(name string, fn func(context.Context) ([]modelFlight.Info, error)) {
 			defer wg.Done()
 
-			flights, err := fn(ctx)
+			log := zerolog.Ctx(ctx).With().Str("provider", name).Logger()
 
-			mu.Lock()
-			defer mu.Unlock()
-
+			cached, err := s.Cache.Get(ctx, fmt.Sprintf(constant.RedisKeyProvider, name))
 			if err != nil {
+				log.Warn().Err(err).Msg("redis get failed")
+			} else if len(cached) > 0 {
+				var cachedFlights []modelFlight.Info
+				if err = json.Unmarshal(cached, &cachedFlights); err != nil {
+					log.Warn().Err(err).Msg("redis cache unmarshal failed")
+				} else if len(cachedFlights) > 0 {
+					mu.Lock()
+					out = append(out, cachedFlights...)
+					mu.Unlock()
+					return
+				}
+			}
+
+			flights, err := fn(ctx)
+			if err != nil {
+				mu.Lock()
 				failed++
-				zerolog.Ctx(ctx).
-					Warn().
-					Err(err).
-					Str("provider", name).
-					Msg("provider failed")
+				mu.Unlock()
+
 				return
 			}
 
+			dataFLight, _ := json.Marshal(flights)
+			if err = s.Cache.Set(ctx, fmt.Sprintf(constant.RedisKeyProvider, name), dataFLight, constant.DurationRedisProvider); err != nil {
+				zerolog.Ctx(ctx).Warn().
+					Err(err).
+					Str("provider", name).
+					Msg("failed save provider flights to redis")
+			}
+
+			mu.Lock()
 			out = append(out, flights...)
+			mu.Unlock()
 		}(name, fn)
-		wg.Wait()
 	}
+	wg.Wait()
 
 	if len(out) == 0 && failed == len(providers) {
 		return nil, errors.New("all providers failed")
