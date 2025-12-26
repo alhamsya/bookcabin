@@ -16,6 +16,7 @@ import (
 	"github.com/alhamsya/bookcabin/internal/core/service/flight"
 	"github.com/alhamsya/bookcabin/pkg/manager/config"
 	"github.com/alhamsya/bookcabin/pkg/manager/protocol"
+	"github.com/rs/zerolog"
 
 	_ "go.uber.org/automaxprocs" // Automatically set GOMAXPROCS to match Linux container CPU quota.
 )
@@ -23,6 +24,8 @@ import (
 func RunApp(ctx context.Context) error { //nolint:nolintlint,funlen
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, os.Interrupt)
+
+	logger := zerolog.New(os.Stderr).With().Stack().Ctx(ctx).Timestamp().Logger()
 
 	/* === GENERAL === */
 	cfg := config.GetConfig(ctx)
@@ -56,6 +59,7 @@ func RunApp(ctx context.Context) error { //nolint:nolintlint,funlen
 	flightService := flight.NewFlightService(&flight.Service{
 		Cfg:         cfg,
 		Cache:       cache,
+		Log:         logger,
 		AirAsiaRepo: airAsiaRepo,
 		BatikRepo:   batikRepo,
 		GarudaRepo:  garudaRepo,

@@ -3,14 +3,16 @@ package protocol
 import (
 	"context"
 	"fmt"
-	"github.com/alhamsya/bookcabin/internal/adapter/handler/rest"
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 
+	"github.com/alhamsya/bookcabin/internal/adapter/handler/rest"
 	"github.com/alhamsya/bookcabin/internal/core/domain/constant"
 	"github.com/alhamsya/bookcabin/pkg/manager/config"
 	"github.com/alhamsya/bookcabin/pkg/manager/graceful"
+	"github.com/alhamsya/bookcabin/pkg/manager/logging"
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -52,8 +54,11 @@ func Rest(ctx context.Context, this *RESTService) *RESTService {
 }
 
 func customLogger(ctx context.Context, cfg *config.Application) fiber.Handler {
-	zerolog.TimeFieldFormat = constant.DateTime
+	zerolog.TimestampFieldName = "timestamp"
+	zerolog.TimeFieldFormat = time.RFC3339
+	zerolog.ErrorStackMarshaler = logging.MarshalStack
 	logger := zerolog.New(os.Stderr).With().
+		Stack().
 		Timestamp().
 		Ctx(ctx).
 		Logger()
